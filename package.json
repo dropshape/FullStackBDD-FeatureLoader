@@ -1,0 +1,39 @@
+{
+  "name": "fullstackbdd-featureloader",
+  "description": "fullstackbdd-featureloader",
+  "version": "0.0.1",
+  "author": {
+    "name": "DropShape",
+    "email": "admin AT dropshape.com"
+  },
+  "keywords": [],
+  "scripts": {
+    "test": "./node_modules/cucumber/bin/cucumber.js test/ -r test/step_definitions/ --format pretty | ./node_modules/bunyan/bin/bunyan -o short"
+  },
+  "main": "index",
+  "engines": {
+    "node": ">=0.6.19"
+  },
+  "bugs": {
+    "url": "https://github.com/dropshape/fullstackbdd-featureloader/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dropshape/fullstackbdd-featureloader"
+  },
+  "homepage": "https://github.com/dropshape/fullstackbdd-featureloader",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "bunyan": "~0.22.1",
+    "grunt": "~0.4.2",
+    "cucumber": "~0.3.3",
+    "multi-glob": "~0.4.0",
+    "q": "~1.0.0",
+    "graceful-fs": "~2.0.2",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "chai": "~1.9.0",
+    "grunt-contrib-jshint": "~0.8.0"
+  }
+}
