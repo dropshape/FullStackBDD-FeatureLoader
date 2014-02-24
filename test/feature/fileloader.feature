@@ -25,7 +25,7 @@ Feature: File Loader
     Then  There should be no files to load
     And   Must throw an error if I attempt to get a file
 
-  Scenario: Load Multiple FileLoaders
+  Scenario: Multiple file loaders throw on invalid next file
     Given I have configured Multiple Filesystems with Glob Pattern "**/github.js"
     Then  I can get the next file
     Then  I can get the next file
