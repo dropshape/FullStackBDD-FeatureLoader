@@ -6,9 +6,10 @@ module.exports = function steps() {
 //    var expect = require('chai').expect;
     var FeatureLoader = require('../../lib/FeatureLoader');
     var GHLoader = require('../../lib/GitHubLoader');
+    var githubUrl = 'https://github.com/dropshape/FullStackBDD-Features';
 
-    this.Given(/^A public Github url with a Glob Pattern "([^"]*)"$/, function(pattern, callback) {
-        this.featureLoader = new FeatureLoader(new GHLoader(pattern, 'https://github.com/mccormicka/Features.git'));
+    this.Given(/^A public Github url with a Glob Pattern "([^"]*)"$/, function (pattern, callback) {
+        this.featureLoader = new FeatureLoader(new GHLoader(pattern, githubUrl));
         callback();
     });
 
