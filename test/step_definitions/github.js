@@ -1,30 +1,34 @@
 'use strict';
 
-
 module.exports = function steps() {
 
-//    var expect = require('chai').expect;
     var FeatureLoader = require('../../lib/FeatureLoader');
     var GHLoader = require('../../lib/GitHubLoader');
-    var githubUrl = 'https://github.com/dropshape/FullStackBDD-Features';
+    var githubURL = 'https://github.com/dropshape/FullStackBDD-Features.git';
+    var githubURLPrivate = 'https://<REPLACE WITH TOKEN>:x-oauth-basic@github.com/dropshape/private.git';
+    var githubURLPrivateInvalid = 'https://<REPLACE WITH INVALID TOKEN>:x-oauth-basic@github.com/dropshape/private.git';
 
     this.Given(/^A public Github url with a Glob Pattern "([^"]*)"$/, function (pattern, callback) {
-        this.featureLoader = new FeatureLoader(new GHLoader(pattern, githubUrl));
+        this.featureLoader = new FeatureLoader(new GHLoader(pattern, githubURL));
         callback();
     });
 
-    this.Given(/^A private Github url with a Glob Pattern "([^"]*)" and valid Credentials$/, function(arg1, callback) {
-        // express the regexp above with the code you wish you had
-        callback.pending();
+    this.Given(/^A private Github url with a Glob Pattern "([^"]*)"$/, function (pattern, callback) {
+        this.featureLoader = new FeatureLoader(new GHLoader(pattern, githubURLPrivate));
+        callback();
     });
 
-    this.Given(/^A private Github url with invalid Credentials$/, function(callback) {
-        // express the regexp above with the code you wish you had
-        callback.pending();
+    this.Given(/^A private Github url with invalid Credentials$/, function (callback) {
+        this.featureLoader = new FeatureLoader(new GHLoader("**/feature.feature", githubURLPrivateInvalid));
+        callback();
     });
 
-    this.Then(/^I must receive an authentication error from Github$/, function(callback) {
+    this.Then(/^I must receive an authentication error from Github$/, function (callback) {
         // express the regexp above with the code you wish you had
-        callback.pending();
+        this.featureLoader.fileNames().fail(function (err) {
+            callback();
+        }).fin(function () {
+                callback.fail('Call should fail!');
+            });
     });
 };

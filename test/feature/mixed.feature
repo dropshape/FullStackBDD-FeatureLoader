@@ -1,3 +1,4 @@
+@filesystem @github
 Feature: Mixed Loader
   In order: to be able to keep my files wherever I want
   As a : Developer
@@ -18,7 +19,6 @@ Feature: Mixed Loader
       | FeatureLoader/testdata/features/nested.feature_txt              |
       | FeatureLoader/testdata/features/nested/deeplynested.feature_txt |
 
-  @current
   Scenario: Multiple mixed loaders throw on invalid next file
     Given I have configured Multiple loaders with the glob pattern "{**/github.js,**/sample.feature_txt}"
     Then  I can get the next file
