@@ -1,8 +1,8 @@
 @github
-Feature: URL Loader
+Feature: Github Loader
   In order: to be able to keep my files wherever I want
   As a : Developer
-  I want : to be able to load my files from a URL
+  I want : to be able to load my files from a github URL
 
   Scenario: Load files from a public Github repository
     Given A public Github url with a Glob Pattern "**/*.feature_txt"

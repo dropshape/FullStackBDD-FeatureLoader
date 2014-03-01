@@ -1,8 +1,8 @@
 @github @private @ignore
-Feature: URL Loader
-  In order: to be able to keep my files wherever I want
+Feature: Private Github Loader
+  In order: to be able to keep my files in a private github repository
   As a : Developer
-  I want : to be able to load my files from a URL
+  I want : to be able to load my files from a private Github URL
 
   Scenario: Load files from a private Github repository
     Given A private Github url with a Glob Pattern "**/feature.feature"
