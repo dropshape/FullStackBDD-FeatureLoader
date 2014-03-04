@@ -42,7 +42,6 @@ Feature: File Loader
       | test/step_definitions/github.js |
       | test/step_definitions/github.js |
 
-  @current
   Scenario: Load all files from a directory
     Given Filesystem Glob Pattern "test/step_definitions/"
     Then  I must load the given files :
