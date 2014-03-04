@@ -19,16 +19,16 @@ module.exports = function steps() {
     });
 
     this.Given(/^A private Github url with invalid Credentials$/, function (callback) {
-        this.featureLoader = new FeatureLoader(new GHLoader("**/feature.feature", githubURLPrivateInvalid));
+        this.featureLoader = new FeatureLoader(new GHLoader("**/feature.feature", githubURLPrivateInvalid, true));
         callback();
     });
 
     this.Then(/^I must receive an authentication error from Github$/, function (callback) {
         // express the regexp above with the code you wish you had
-        this.featureLoader.fileNames().fail(function (err) {
-            callback();
-        }).fin(function () {
-                callback.fail('Call should fail!');
+        this.featureLoader.fileNames().then(function (results) {
+            callback.fail('Call should fail!', results);
+        }).fail(function () {
+                callback();
             });
     });
 };

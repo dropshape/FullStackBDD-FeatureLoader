@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "scripts": {
-    "test": "./node_modules/cucumber/bin/cucumber.js test/ -r test/step_definitions/ --format pretty | ./node_modules/bunyan/bin/bunyan -o short"
+    "test": "./node_modules/cucumber/bin/cucumber.js test/ -r test/step_definitions/ --format pretty --tags ~@ignore | ./node_modules/bunyan/bin/bunyan -o short"
   },
   "main": "index",
   "engines": {
