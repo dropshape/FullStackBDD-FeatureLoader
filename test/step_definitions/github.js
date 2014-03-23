@@ -8,6 +8,11 @@ module.exports = function steps() {
     var githubURLPrivate = 'https://<REPLACE WITH TOKEN>:x-oauth-basic@github.com/dropshape/private.git';
     var githubURLPrivateInvalid = 'https://<REPLACE WITH INVALID TOKEN>:x-oauth-basic@github.com/dropshape/private.git';
 
+    this.Given(/^I want to load feature files from a public Github repository\.$/, function(callback) {
+        this.featureLoader = new FeatureLoader(new GHLoader('**/*.feature_txt', githubURL));
+        callback();
+    });
+
     this.Given(/^A public Github url with a Glob Pattern "([^"]*)"$/, function (pattern, callback) {
         this.featureLoader = new FeatureLoader(new GHLoader(pattern, githubURL));
         callback();

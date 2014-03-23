@@ -1,21 +1,16 @@
 @github
-Feature: Github Loader
-  In order: to be able to keep my files wherever I want
-  As a : Developer
-  I want : to be able to load my files from a github URL
+Feature: Load Feature files from a Github repository so that
+  feature files can be run against all modules in the application.
 
+  In order to : Increase application stability
+  As a        : Quality Assurance Engineer
+  I want to   : Run feature files from a central repository
+
+  @current
   Scenario: Load files from a public Github repository
-    Given A public Github url with a Glob Pattern "**/*.feature_txt"
-    Then I must load the given files :
-      | filenames                                                       |
-      | FeatureLoader/testdata/sample.feature_txt                       |
-      | FeatureLoader/testdata/features/nested.feature_txt              |
-      | FeatureLoader/testdata/features/nested/deeplynested.feature_txt |
-    And  I must be able to get the file contents for:
-      | filenames                                                       |
-      | FeatureLoader/testdata/sample.feature_txt                       |
-      | FeatureLoader/testdata/features/nested.feature_txt              |
-      | FeatureLoader/testdata/features/nested/deeplynested.feature_txt |
+    Given I want to load feature files from a public Github repository.
+    When  The loader has finished loading the Github repository.
+    Then  I will have access to the feature files in the Github repository.
 
   Scenario: Load the next file from a public Github repository
     Given A public Github url with a Glob Pattern "**/sample.feature_txt"

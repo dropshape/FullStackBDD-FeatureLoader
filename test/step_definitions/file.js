@@ -11,9 +11,29 @@ module.exports = function steps() {
         callback();
     });
 
-    this.Given(/^I have configured Multiple Filesystems with Glob Pattern "([^"]*)"$/, function(pattern, callback) {
+    this.Given(/^I have configured Multiple Filesystems with Glob Pattern "([^"]*)"$/, function (pattern, callback) {
         this.featureLoader = new FeatureLoader(new FSLoader(pattern), new FSLoader(pattern));
         callback();
+    });
+
+    this.When(/^The loader has finished loading the Github repository\.$/, function (callback) {
+        this.featureLoader.fileNames().then(function () {
+            callback();
+        }).fail(function (err) {
+                callback.fail(err);
+            });
+    });
+
+    this.Then(/^I will have access to the feature files in the Github repository\.$/, function(callback) {
+        this.featureLoader.fileNames().then(function(filenames){
+            expect(filenames.length).to.be.above(0);
+            expect(filenames.indexOf('FeatureLoader/testdata/sample.feature_txt')).to.be.above(-1);
+            expect(filenames.indexOf('FeatureLoader/testdata/features/nested.feature_txt')).to.be.above(-1);
+            expect(filenames.indexOf('FeatureLoader/testdata/features/nested/deeplynested.feature_txt')).to.be.above(-1);
+            callback();
+        }).fail(function(err){
+                callback.fail(err);
+            });
     });
 
     this.Then(/^I must load the given files :$/, function (table, callback) {
@@ -42,29 +62,29 @@ module.exports = function steps() {
             });
     });
 
-    this.Then(/^There should be no files to load$/, function(callback) {
-        this.featureLoader.hasNext().then(function(hasNext){
+    this.Then(/^There should be no files to load$/, function (callback) {
+        this.featureLoader.hasNext().then(function (hasNext) {
             expect(hasNext).to.be.eql(false);
         });
-        this.featureLoader.fileNames().then(function(fileNames){
+        this.featureLoader.fileNames().then(function (fileNames) {
             expect(fileNames).to.have.length(0);
             callback();
         });
     });
 
-    this.Then(/^I can get the next file$/, function(callback) {
-        this.featureLoader.next().then(function(file){
+    this.Then(/^I can get the next file$/, function (callback) {
+        this.featureLoader.next().then(function (file) {
             expect(file.length).to.be.above(5);
             callback();
-        }).fail(function(){
+        }).fail(function () {
                 callback.fail('Should be able to load the next file!');
             });
     });
 
-    this.Then(/^Must throw an error if I attempt to get a file$/, function(callback) {
-        this.featureLoader.next().then(function(file){
+    this.Then(/^Must throw an error if I attempt to get a file$/, function (callback) {
+        this.featureLoader.next().then(function (file) {
             callback.fail('Should not be able to retrieve an empty file!', file);
-        }).fail(function(){
+        }).fail(function () {
                 callback();
             });
     });
