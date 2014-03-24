@@ -6,60 +6,39 @@ module.exports = function steps() {
     var FeatureLoader = require('../../lib/FeatureLoader');
     var FSLoader = require('../../lib/FileSystemLoader');
 
-    this.Given(/^Filesystem Glob Pattern "([^"]*)"$/, function (pattern, callback) {
-        this.featureLoader = new FeatureLoader(new FSLoader(pattern));
+    this.Given(/^I want to load feature files from the filesystem\.$/, function (callback) {
+        this.featureLoader = new FeatureLoader(new FSLoader('**/test/feature/**.feature'));
         callback();
     });
 
-    this.Given(/^I have configured Multiple Filesystems with Glob Pattern "([^"]*)"$/, function (pattern, callback) {
-        this.featureLoader = new FeatureLoader(new FSLoader(pattern), new FSLoader(pattern));
-        callback();
-    });
-
-    this.When(/^The loader has finished loading the Github repository\.$/, function (callback) {
-        this.featureLoader.fileNames().then(function () {
-            callback();
-        }).fail(function (err) {
-                callback.fail(err);
-            });
-    });
-
-    this.Then(/^I will have access to the feature files in the Github repository\.$/, function(callback) {
-        this.featureLoader.fileNames().then(function(filenames){
-            expect(filenames.length).to.be.above(0);
-            expect(filenames.indexOf('FeatureLoader/testdata/sample.feature_txt')).to.be.above(-1);
-            expect(filenames.indexOf('FeatureLoader/testdata/features/nested.feature_txt')).to.be.above(-1);
-            expect(filenames.indexOf('FeatureLoader/testdata/features/nested/deeplynested.feature_txt')).to.be.above(-1);
-            callback();
-        }).fail(function(err){
-                callback.fail(err);
-            });
-    });
-
-    this.Then(/^I must load the given files :$/, function (table, callback) {
+    this.Then(/^I will have access to the feature files in the filesystem\.$/, function (callback) {
         this.featureLoader.fileNames().then(function (filenames) {
-            expect(filenames).to.have.length(table.rows().length);
-            table.rows().forEach(function (value) {
-                expect(filenames).to.contain(value[0]);
-            });
+            expect(filenames.length).to.be.above(0);
+            expect(filenames.indexOf('test/feature/github.feature')).to.be.above(-1);
+            expect(filenames.indexOf('test/feature/fileloader.feature')).to.be.above(-1);
             callback();
         }).fail(function (err) {
                 callback.fail(err);
             });
     });
 
-    this.Then(/^I must be able to get the file contents for:$/, function (table, callback) {
-        var featureLoader = this.featureLoader;
-        var count = table.rows().length;
-        featureLoader.forEach(function (file) {
-            expect(file.length).to.be.above(5);
-            count--;
-        }).then(function () {
-                expect(count).to.eq(0);
-                callback();
-            }).fail(function (err) {
-                callback.fail('Error loading files', err);
+    this.Given(/^I load a file from the filesystem$/, function (callback) {
+        this.featureLoader = new FeatureLoader(new FSLoader('**/test/feature/fileloader.feature'));
+        callback();
+    });
+
+    this.Then(/^I can retrieve that file from the filesystem$/, function (callback) {
+        this.featureLoader.next().then(function (file) {
+            expect(file.length).to.be.above(0);
+            callback();
+        }).fail(function () {
+                callback.fail('Should be able to load the next file!');
             });
+    });
+
+    this.Given(/^I load an invalid file from the filesystem$/, function (callback) {
+        this.featureLoader = new FeatureLoader(new FSLoader('invalid_file_that_should_not_exist.pdf.md.txt'));
+        callback();
     });
 
     this.Then(/^There should be no files to load$/, function (callback) {
@@ -72,13 +51,18 @@ module.exports = function steps() {
         });
     });
 
-    this.Then(/^I can get the next file$/, function (callback) {
-        this.featureLoader.next().then(function (file) {
-            expect(file.length).to.be.above(5);
+    this.Given(/^I want to load feature files from the filesystem with multiple filesystem loaders\.$/, function (callback) {
+        this.featureLoader = new FeatureLoader(
+            new FSLoader('**/test/feature/fileloader.feature'), new FSLoader('**/test/feature/fileloader.feature')
+        );
+        callback();
+    });
+
+    this.Then(/^I will have access to the feature files in the filesystem twice\.$/, function (callback) {
+        this.featureLoader.fileNames().then(function (fileNames) {
+            expect(fileNames).to.have.length(2);
             callback();
-        }).fail(function () {
-                callback.fail('Should be able to load the next file!');
-            });
+        });
     });
 
     this.Then(/^Must throw an error if I attempt to get a file$/, function (callback) {

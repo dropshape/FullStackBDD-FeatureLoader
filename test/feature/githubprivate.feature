@@ -1,23 +1,16 @@
 @github @private @ignore
-Feature: Private Github Loader
-  In order: to be able to keep my files in a private github repository
-  As a : Developer
-  I want : to be able to load my files from a private Github URL
+Feature: Load Feature files from a private Github repository so that
+  feature files can be run against all modules in the application.
+
+  In order to : Increase application stability
+  As a        : Quality Assurance Engineer
+  I want to   : Run feature files from a central repository
 
   Scenario: Load files from a private Github repository
-    Given A private Github url with a Glob Pattern "**/feature.feature"
-    Then I must load the given files :
-      | filenames                     |
-      | test/features/feature.feature |
-    And  I must be able to get the file contents for:
-      | filenames                     |
-      | test/features/feature.feature |
-
-  Scenario: Load the next file from a private Github repository
-    Given A private Github url with a Glob Pattern "**/feature.feature"
-    Then  I can get the next file
-    And   Must throw an error if I attempt to get a file
+    Given I want to load feature files from a private Github repository.
+    When  The loader has finished loading the Github repository.
+    Then  I will have access to the feature files in the private Github repository.
 
   Scenario: Error when trying to load files from a private Github repository with invalid credentials
-    Given A private Github url with invalid Credentials
-    Then I must receive an authentication error from Github
+    Given I want to load feature files from a private Github repository with invalid credentials
+    Then  I must receive an authentication error from Github

@@ -1,26 +1,11 @@
 @filesystem @github
-Feature: Mixed Loader
-  In order: to be able to keep my files wherever I want
-  As a : Developer
-  I want : to be able to load my files from anywhere
+Feature: Load Feature files from a local filesystem as well as Github so that
+  feature files can be run against all modules in the application.
+
+  In order to : Increase application stability
+  As a        : Quality Assurance Engineer
+  I want to   : Run feature files from the filesystem
 
   Scenario: Load files from the filesystem and a Github repository
-    Given A Filesystem Pattern "**/github.js" and A public Github url and a Glob Pattern "**/*.feature_txt"
-    Then  I must load the given files :
-      | filename                                                        |
-      | test/step_definitions/github.js                                 |
-      | FeatureLoader/testdata/sample.feature_txt                       |
-      | FeatureLoader/testdata/features/nested.feature_txt              |
-      | FeatureLoader/testdata/features/nested/deeplynested.feature_txt |
-    And  I must be able to get the file contents for:
-      | filename                                                        |
-      | test/step_definitions/github.js                                 |
-      | FeatureLoader/testdata/sample.feature_txt                       |
-      | FeatureLoader/testdata/features/nested.feature_txt              |
-      | FeatureLoader/testdata/features/nested/deeplynested.feature_txt |
-
-  Scenario: Multiple mixed loaders throw on invalid next file
-    Given I have configured Multiple loaders with the glob pattern "{**/github.js,**/sample.feature_txt}"
-    Then  I can get the next file
-    Then  I can get the next file
-    And   Must throw an error if I attempt to get a file
+    Given I want to load feature files from the filesystem and a public Github repository.
+    Then  I will have access to the feature files in the filesystem and the Github repository.
